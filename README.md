@@ -1,6 +1,5 @@
 # MediFast
 
-> داروخانه شبانه‌روزی در دسترس شما – حتی در تعطیلات
 
 A web app (PWA-capable) that connects sick people with available couriers/pharmacies to get prescription or OTC medicines delivered fast — like Uber Eats but only for medicines.
 
