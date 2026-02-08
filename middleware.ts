@@ -8,7 +8,7 @@ const handleI18nRouting = createMiddleware(routing);
 export default async function middleware(request: NextRequest) {
   const response = handleI18nRouting(request);
   const locale = request.nextUrl.pathname.split("/")[1] || "de";
-  if (["de","en","es","fr","it","ru","uk","ar","tr","fa"].includes(locale)) {
+  if (["de", "en"].includes(locale)) {
     response.headers.set("x-next-locale", locale);
   }
 
@@ -36,6 +36,6 @@ export default async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/((?!api|_next|_vercel|.*\\..*).*)",
-    "/(de|en|es|fr|it|ru|uk|ar|tr|fa)/:path*",
+    "/(de|en)/:path*",
   ],
 };

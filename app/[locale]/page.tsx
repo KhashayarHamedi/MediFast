@@ -1,8 +1,12 @@
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pill, Truck, Clock, MapPin } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Pill, Truck, Clock, MapPin, Shield, Banknote } from "lucide-react";
 import { Link as NavLink } from "@/lib/navigation";
+import { db } from "@/lib/db";
+import { pharmacies } from "@/drizzle/schema";
+import { eq } from "drizzle-orm";
+import { MapClient } from "./dashboard/map/map-client";
 
 export default async function LandingPage({
   params,
@@ -15,99 +19,156 @@ export default async function LandingPage({
   const t = await getTranslations("landing");
   const tNav = await getTranslations("nav");
 
+  const pharmaciesList = await db
+    .select()
+    .from(pharmacies)
+    .where(eq(pharmacies.city, "vienna"));
+  const openCount = pharmaciesList.filter((p) => p.is24h).length;
+
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border/40 bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/30">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <div className="min-h-screen bg-[#0f1117] text-[#e2e8f0]">
+      <header className="border-b border-white/10 bg-[#161b22]/80 backdrop-blur">
+        <div className="container mx-auto flex h-14 items-center justify-between px-4">
           <div className="flex items-center gap-2">
-            <Pill className="h-8 w-8 text-primary" aria-hidden />
-            <span className="text-xl font-bold tracking-tight">MediFast</span>
+            <Pill className="h-7 w-7 text-[#3b82f6]" aria-hidden />
+            <span className="text-lg font-bold tracking-tight">MediFast</span>
           </div>
-          <nav className="flex items-center gap-4">
+          <nav className="flex items-center gap-2">
             <NavLink href="/login">
-              <Button variant="ghost">{tNav("login")}</Button>
+              <Button variant="ghost" size="sm" className="text-[#e2e8f0] hover:bg-white/10">
+                {tNav("login")}
+              </Button>
             </NavLink>
             <NavLink href="/signup">
-              <Button>{tNav("signup")}</Button>
+              <Button size="sm" className="bg-[#3b82f6] hover:bg-[#2563eb] text-white">
+                {tNav("signup")}
+              </Button>
             </NavLink>
           </nav>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-16 md:py-24">
-        <section className="mx-auto max-w-3xl text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            {t("title")}
+      <main className="container mx-auto px-4 py-8 md:py-12">
+        {/* Availability badge above fold */}
+        <section className="mb-6 flex justify-center">
+          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-500/20 px-4 py-2 text-sm font-medium text-emerald-400">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            {openCount > 0
+              ? `${openCount} ${t("availabilityBadge").toLowerCase()}`
+              : t("availabilityBadge")}
+          </span>
+        </section>
+
+        {/* Hero: max 8 words + subheadline */}
+        <section className="mx-auto max-w-2xl text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-[#e2e8f0] sm:text-4xl md:text-5xl">
+            {t("hero")}
           </h1>
-          <p className="mt-6 text-lg text-muted-foreground">{t("subtitle")}</p>
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
+          <p className="mt-4 text-lg text-[#8b949e]">{t("subheadline")}</p>
+          <div className="mt-8">
             <NavLink href="/signup">
-              <Button size="lg" className="w-full sm:w-auto">
-                {t("requestMedicine")}
+              <Button
+                size="lg"
+                className="h-14 min-w-[220px] bg-[#3b82f6] text-lg font-semibold hover:bg-[#2563eb] text-white"
+              >
+                {t("requestMedicineNow")}
               </Button>
             </NavLink>
-            <NavLink href="/signup">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                {t("beCourier")}
-              </Button>
-            </NavLink>
+            <p className="mt-3 text-sm text-[#8b949e]">{t("microReassurance")}</p>
           </div>
         </section>
 
-        <section className="mt-24 grid gap-8 md:grid-cols-3">
-          <Card className="border-border/50 bg-card/50">
-            <CardHeader>
-              <Clock className="mb-2 h-10 w-10 text-primary" aria-hidden />
-              <CardTitle>{t("feature1Title")}</CardTitle>
-              <CardDescription>{t("feature1Desc")}</CardDescription>
-            </CardHeader>
+        {/* Reassurance blocks (4) */}
+        <section className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <Card className="border-white/10 bg-[#161b22]">
+            <CardContent className="flex items-center gap-3 pt-4">
+              <Clock className="h-8 w-8 shrink-0 text-[#3b82f6]" />
+              <div>
+                <p className="font-medium text-[#e2e8f0]">{t("reassurance1")}</p>
+              </div>
+            </CardContent>
           </Card>
-          <Card className="border-border/50 bg-card/50">
-            <CardHeader>
-              <Truck className="mb-2 h-10 w-10 text-primary" aria-hidden />
-              <CardTitle>{t("feature2Title")}</CardTitle>
-              <CardDescription>{t("feature2Desc")}</CardDescription>
-            </CardHeader>
+          <Card className="border-white/10 bg-[#161b22]">
+            <CardContent className="flex items-center gap-3 pt-4">
+              <Truck className="h-8 w-8 shrink-0 text-[#3b82f6]" />
+              <div>
+                <p className="font-medium text-[#e2e8f0]">{t("reassurance2")}</p>
+              </div>
+            </CardContent>
           </Card>
-          <Card className="border-border/50 bg-card/50">
-            <CardHeader>
-              <MapPin className="mb-2 h-10 w-10 text-primary" aria-hidden />
-              <CardTitle>{t("feature3Title")}</CardTitle>
-              <CardDescription>{t("feature3Desc")}</CardDescription>
-            </CardHeader>
+          <Card className="border-white/10 bg-[#161b22]">
+            <CardContent className="flex items-center gap-3 pt-4">
+              <Shield className="h-8 w-8 shrink-0 text-[#3b82f6]" />
+              <div>
+                <p className="font-medium text-[#e2e8f0]">{t("reassurance3")}</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border-white/10 bg-[#161b22]">
+            <CardContent className="flex items-center gap-3 pt-4">
+              <Banknote className="h-8 w-8 shrink-0 text-[#3b82f6]" />
+              <div>
+                <p className="font-medium text-[#e2e8f0]">{t("reassurance4")}</p>
+              </div>
+            </CardContent>
           </Card>
         </section>
 
-        <section className="mt-24">
-          <h2 className="text-center text-2xl font-bold">{t("testimonials")}</h2>
-          <div className="mx-auto mt-8 grid max-w-4xl gap-6 md:grid-cols-2">
-            <Card>
-              <CardContent className="pt-6">
-                <p className="text-muted-foreground">{t("testimonial1")}</p>
-                <p className="mt-4 text-sm font-medium">{t("testimonial1Author")}</p>
+        {/* Map section – prominent below hero */}
+        <section className="mt-12">
+          <h2 className="mb-3 text-xl font-semibold text-[#e2e8f0]">{t("mapTitle")}</h2>
+          <div className="overflow-hidden rounded-lg border border-white/10 bg-[#161b22]">
+            <div className="h-[400px] min-h-[320px] w-full">
+              <MapClient pharmacies={pharmaciesList} />
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials (1–2 short) */}
+        <section className="mt-12">
+          <div className="mx-auto grid max-w-2xl gap-4 sm:grid-cols-2">
+            <Card className="border-white/10 bg-[#161b22]">
+              <CardContent className="pt-4">
+                <p className="text-[#8b949e]">&ldquo;{t("testimonial1")}&rdquo;</p>
+                <p className="mt-2 text-sm font-medium text-[#e2e8f0]">{t("testimonial1Author")}</p>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent className="pt-6">
-                <p className="text-muted-foreground">{t("testimonial2")}</p>
-                <p className="mt-4 text-sm font-medium">{t("testimonial2Author")}</p>
+            <Card className="border-white/10 bg-[#161b22]">
+              <CardContent className="pt-4">
+                <p className="text-[#8b949e]">&ldquo;{t("testimonial2")}&rdquo;</p>
+                <p className="mt-2 text-sm font-medium text-[#e2e8f0]">{t("testimonial2Author")}</p>
               </CardContent>
             </Card>
           </div>
         </section>
 
-        <section className="mt-24 rounded-lg border border-border/50 bg-primary/5 p-8 text-center">
-          <h2 className="text-2xl font-bold">{t("ctaTitle")}</h2>
-          <p className="mt-2 text-muted-foreground">{t("ctaSubtitle")}</p>
-          <NavLink href="/signup" className="mt-6 inline-block">
-            <Button size="lg">{t("ctaButton")}</Button>
+        {/* Emergency micro-copy */}
+        <p className="mt-8 text-center text-sm text-[#8b949e]">
+          {t("emergency")}
+        </p>
+
+        {/* Final CTA */}
+        <section className="mt-8 text-center">
+          <NavLink href="/signup">
+            <Button
+              variant="outline"
+              className="border-[#3b82f6]/50 text-[#3b82f6] hover:bg-[#3b82f6]/10"
+            >
+              {t("ctaButton")}
+            </Button>
           </NavLink>
         </section>
       </main>
 
-      <footer className="mt-24 border-t border-border/40 py-8">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          {t("footer")}
+      <footer className="mt-12 border-t border-white/10 py-6">
+        <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 sm:flex-row">
+          <p className="text-sm text-[#8b949e]">{t("footer")}</p>
+          <NavLink
+            href="/signup?role=delivery"
+            className="text-sm text-[#8b949e] underline underline-offset-4 hover:text-[#e2e8f0]"
+          >
+            {t("beCourier")}
+          </NavLink>
         </div>
       </footer>
     </div>

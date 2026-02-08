@@ -1,8 +1,8 @@
 # MediFast
 
-> داروخانه شبانه‌روزی در دسترس شما – حتی در تعطیلات
+> Medicine delivered. Night & weekend. Vienna only.
 
-A web app (PWA-capable) that connects sick people with available couriers/pharmacies to get prescription or OTC medicines delivered fast — like Uber Eats but only for medicines.
+A PWA-capable web app for Vienna, Austria: 24h/Notdienst pharmacy visibility and medicine delivery. Built for stressed users (night, weekend, holiday) with low cognitive load and dark mode by default.
 
 ## Tech Stack
 
@@ -45,14 +45,19 @@ DATABASE_URL=postgresql://postgres:[PASSWORD]@db.[PROJECT-REF].supabase.co:5432/
    ```
 
 3. Run the RLS setup SQL in Supabase SQL Editor (see `supabase/setup.sql`)
-4. Create storage bucket `prescriptions` (private) for prescription photos
+4. Create storage buckets in Supabase Dashboard → Storage:
+   - `prescriptions` (public or private) — prescription photos
+   - `id-documents` (private) — courier ID/Führerschein uploads
 5. Enable Email auth in Supabase Dashboard → Authentication → Providers
 
-### 4. Seed Pharmacies
+### 4. Push schema & seed Vienna pharmacies
 
 ```bash
+npm run db:push
 npm run db:seed
 ```
+
+(Seed script adds ~20 real Vienna 24h/Notdienst pharmacies.)
 
 ### 5. Run
 
@@ -75,16 +80,14 @@ npm run dev
 
 ## Features (MVP)
 
-- ✅ Patient sign-up + profile (name, phone, address, health summary, voice-to-text)
-- ✅ Prescription photo upload
-- ✅ Map with Tehran 24h pharmacies (Leaflet) — blinking markers for open/urgent
-- ✅ Delivery sign-up + availability toggle (online/offline)
-- ✅ Request creation (medicines + address)
-- ✅ Delivery accepts job → status updates (picked up → delivering → delivered)
-- ✅ Patient dashboard (active/completed requests)
-- ✅ Patient delivery tracking (status timeline + 5s polling for active requests)
-- ✅ Cash on delivery placeholder
-- ✅ Dark mode, RTL, Persian UI
+- ✅ **Vienna only**: Real 24h/Notdienst pharmacies (seeded from nachtapotheke.wien / apo24.at style data)
+- ✅ **Landing**: Dark mode default, hero (8 words), single CTA “Request Medicine Now”, reassurance blocks, live map below fold, emergency copy (144/112)
+- ✅ **Patient**: Sign-up with PLZ, street, house number; profile with optional health summary (allergies, conditions, meds) + voice-to-text (de/en)
+- ✅ **Prescription**: Upload to Supabase `prescriptions` bucket, preview
+- ✅ **Courier**: Sign-up with DOB, mandatory ID/Führerschein upload (`id-documents` bucket), vehicle type
+- ✅ **Map**: Leaflet + react-leaflet, Vienna center, blinking markers for open/urgent, “Center on me” geolocation
+- ✅ Request flow, delivery status (pending → accepted → picked_up → delivering → delivered), cash on delivery
+- ✅ German/English only (no RTL)
 
 ## Out of Scope (Later)
 

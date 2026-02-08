@@ -15,12 +15,22 @@ export async function updateProfile(input: ProfileInput) {
 
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { error: { _form: ["وارد شوید"] } };
+  if (!user) return { error: { _form: ["Please sign in"] } };
+
+  const { plz, street, houseNumber, address: addr, ...rest } = parsed.data;
+  const address =
+    street && houseNumber && plz
+      ? `${street} ${houseNumber}, ${plz} Wien`
+      : addr;
 
   await db
     .update(users)
     .set({
-      ...parsed.data,
+      ...rest,
+      plz: plz ?? undefined,
+      street: street ?? undefined,
+      houseNumber: houseNumber ?? undefined,
+      address: address ?? undefined,
       updatedAt: new Date(),
     })
     .where(eq(users.supabaseAuthId, user.id));

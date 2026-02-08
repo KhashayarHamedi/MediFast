@@ -15,14 +15,6 @@ import { Globe } from "lucide-react";
 const localeNames: Record<Locale, string> = {
   de: "Deutsch",
   en: "English",
-  es: "Español",
-  fr: "Français",
-  it: "Italiano",
-  ru: "Русский",
-  uk: "Українська",
-  ar: "العربية",
-  tr: "Türkçe",
-  fa: "فارسی",
 };
 
 export function LanguageSelector() {

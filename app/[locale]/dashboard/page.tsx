@@ -25,49 +25,52 @@ export default async function DashboardPage({
         <h1 className="text-2xl font-bold">
           {t("welcome", { name: user.name })}
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-base text-muted-foreground">
           {isPatient ? t("patientDesc") : t("deliveryDesc")}
         </p>
       </div>
 
+      {/* One primary action first - principle 2 */}
       {isPatient && (
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card>
+        <div className="space-y-6">
+          <Card className="border-primary/20">
             <CardHeader>
-              <Package className="mb-2 h-10 w-10 text-primary" aria-hidden />
-              <CardTitle>{t("myRequests")}</CardTitle>
-              <CardDescription>{t("myRequestsDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href="/dashboard/requests">
-                <Button variant="outline" className="w-full">{t("viewRequests")}</Button>
-              </Link>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <Package className="mb-2 h-10 w-10 text-primary" aria-hidden />
-              <CardTitle>{t("requestMedicine")}</CardTitle>
-              <CardDescription>{t("requestMedicineDesc")}</CardDescription>
+              <Package className="mb-2 h-12 w-12 text-primary" aria-hidden />
+              <CardTitle className="text-xl">{t("requestMedicine")}</CardTitle>
+              <CardDescription className="text-base">{t("requestMedicineDesc")}</CardDescription>
             </CardHeader>
             <CardContent>
               <Link href="/dashboard/request">
-                <Button className="w-full">{t("createRequest")}</Button>
+                <Button size="lg" className="h-12 min-w-[200px] text-base w-full">{t("createRequest")}</Button>
               </Link>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader>
-              <Map className="mb-2 h-10 w-10 text-primary" aria-hidden />
-              <CardTitle>{t("mapTitle")}</CardTitle>
-              <CardDescription>{t("mapDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href="/dashboard/map">
-                <Button variant="outline" className="w-full">{t("viewMap")}</Button>
-              </Link>
-            </CardContent>
-          </Card>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <Package className="mb-2 h-10 w-10 text-primary" aria-hidden />
+                <CardTitle>{t("myRequests")}</CardTitle>
+                <CardDescription>{t("myRequestsDesc")}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link href="/dashboard/requests">
+                  <Button variant="outline" className="w-full">{t("viewRequests")}</Button>
+                </Link>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <Map className="mb-2 h-10 w-10 text-primary" aria-hidden />
+                <CardTitle>{t("mapTitle")}</CardTitle>
+                <CardDescription>{t("mapDesc")}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link href="/dashboard/map">
+                  <Button variant="outline" className="w-full">{t("viewMap")}</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       )}
 
