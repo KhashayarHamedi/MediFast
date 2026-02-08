@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MediFast
 
-## Getting Started
+> داروخانه شبانه‌روزی در دسترس شما – حتی در تعطیلات
 
-First, run the development server:
+A web app (PWA-capable) that connects sick people with available couriers/pharmacies to get prescription or OTC medicines delivered fast — like Uber Eats but only for medicines.
+
+## Tech Stack
+
+- **Next.js 16** (App Router)
+- **Tailwind CSS 4** + shadcn/ui
+- **Supabase** (Auth, Postgres, Storage)
+- **Drizzle ORM**
+- **Leaflet** (maps)
+- **Zod** (validation)
+- **Sonner** (toasts)
+
+## Setup
+
+### 1. Clone & Install
+
+```bash
+git clone https://github.com/KhashayarHamedi/MediFast.git
+cd MediFast
+npm install
+```
+
+### 2. Environment Variables
+
+Copy `.env.example` to `.env.local` and fill in:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+DATABASE_URL=postgresql://postgres:[PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres
+```
+
+### 3. Supabase
+
+1. Create a project at [supabase.com](https://supabase.com)
+2. Run Drizzle migrations:
+
+   ```bash
+   npm run db:push
+   ```
+
+3. Run the RLS setup SQL in Supabase SQL Editor (see `supabase/setup.sql`)
+4. Create storage bucket `prescriptions` (private) for prescription photos
+5. Enable Email auth in Supabase Dashboard → Authentication → Providers
+
+### 4. Seed Pharmacies
+
+```bash
+npm run db:seed
+```
+
+### 5. Run
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+/app
+  /dashboard    - Protected dashboard (patient/delivery)
+  /login, /signup
+/actions        - Server actions (auth, profile, request, upload)
+/components     - UI components
+/drizzle        - Schema & migrations
+/lib            - Supabase clients, db, utils, validations
+/scripts        - Seed scripts
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features (MVP)
 
-## Learn More
+- ✅ Patient sign-up + profile (name, phone, address, health summary, voice-to-text)
+- ✅ Prescription photo upload
+- ✅ Map with Tehran 24h pharmacies (Leaflet) — blinking markers for open/urgent
+- ✅ Delivery sign-up + availability toggle (online/offline)
+- ✅ Request creation (medicines + address)
+- ✅ Delivery accepts job → status updates (picked up → delivering → delivered)
+- ✅ Patient dashboard (active/completed requests)
+- ✅ Patient delivery tracking (status timeline + 5s polling for active requests)
+- ✅ Cash on delivery placeholder
+- ✅ Dark mode, RTL, Persian UI
 
-To learn more about Next.js, take a look at the following resources:
+## Out of Scope (Later)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Iranian payment gateway
+- AI OCR for prescriptions
+- Real-time GPS tracking
+- Pharmacy sign-up portal
+- Ratings/reviews
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT

@@ -1,0 +1,2 @@
+-- Run this in Supabase SQL Editor or via drizzle-kit push
+-- RLS policies will be added in a separate migration
