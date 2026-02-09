@@ -118,6 +118,9 @@ export function RequestForm({ savedAddress, recentMeds }: RequestFormProps) {
       <CardHeader>
         <CardTitle className="text-xl">{t("title")}</CardTitle>
         <CardDescription className="text-base">{t("subtitle")}</CardDescription>
+        <p className="mt-2 rounded-md border border-muted bg-accent-warm/15 px-3 py-2 text-sm text-foreground dark:bg-accent-warm/10" role="doc-tip">
+          {t("legalReminder")}
+        </p>
       </CardHeader>
       <CardContent>
         <form action={onSubmit} className="space-y-5">

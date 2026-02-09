@@ -7,7 +7,7 @@ import { db } from "../lib/db";
 import { pharmacies } from "../drizzle/schema";
 
 const viennaPharmacies = [
-  { name: "City-Apotheke am Stephansplatz", nameFa: null, address: "Stephansplatz 7A, 1010 Wien", latitude: 48.2082, longitude: 16.3738, is24h: true, phone: "+43 1 5120828", city: "vienna" },
+  { name: "City-Apotheke am Stephansplatz", nameFa: null, address: "Stephansplatz 7A, 1010 Wien", latitude: 48.2082, longitude: 16.3738, is24h: true, phone: "+43 1 5120828", city: "vienna", acceptsRx: true },
   { name: "Apotheke am Westbahnhof", nameFa: null, address: "Europaplatz 3, 1150 Wien", latitude: 48.1966, longitude: 16.3377, is24h: true, phone: "+43 1 9823954", city: "vienna" },
   { name: "Apotheke zum weißen Engel", nameFa: null, address: "Kärntner Str. 19, 1010 Wien", latitude: 48.2052, longitude: 16.3720, is24h: true, phone: "+43 1 5122891", city: "vienna" },
   { name: "Notdienstapotheke Floridsdorf", nameFa: null, address: "Am Spitz 1, 1210 Wien", latitude: 48.2582, longitude: 16.3988, is24h: true, phone: "+43 1 2705055", city: "vienna" },

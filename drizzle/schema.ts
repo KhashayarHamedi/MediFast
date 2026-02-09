@@ -54,6 +54,7 @@ export const pharmacies = pgTable("pharmacies", {
   is24h: boolean("is_24h").default(false),
   phone: text("phone"),
   city: text("city").default("vienna"),
+  acceptsRx: boolean("accepts_rx").default(true),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

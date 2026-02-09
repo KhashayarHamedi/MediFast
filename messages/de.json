@@ -11,24 +11,51 @@
     "logout": "Abmelden"
   },
   "landing": {
-    "hero": "Medikamente geliefert. Nacht & Wochenende.",
-    "subheadline": "Echtzeit-Verfügbarkeit in Wien. 24h- und Notdienst-Apotheken.",
+    "hero": "Schnelle Abholung & Koordination rund um die Uhr.",
+    "subheadline": "Rezeptfreie Produkte liefern wir. Rezeptpflichtiges reservieren wir für Sie in der nächsten Apotheke.",
     "availabilityBadge": "Viele Apotheken haben in Wien gerade geöffnet",
-    "requestMedicineNow": "Jetzt Medikament anfordern",
+    "requestMedicineNow": "Jetzt starten",
+    "requestOtc": "Rezeptfreie Produkte bestellen",
+    "requestRx": "Rezept hochladen für Reservierung/Abholung",
     "beCourier": "Kurier werden",
-    "reassurance1": "Medikamente 24/7 verfügbar",
-    "reassurance2": "Schnelle Lieferung in Wien",
+    "reassurance1": "OTC lieferbar, Rx nur Reservierung/Abholung",
+    "reassurance2": "Schnelle Koordination in Wien",
     "reassurance3": "Sicher & diskret",
-    "reassurance4": "Bar bei Lieferung – jetzt nichts zahlen",
-    "microReassurance": "Kein Vertrag • Jederzeit kündbar • Bezahlung bei Lieferung",
-    "testimonial1": "Sonntag 2 Uhr nachts mein Asthma-Spray bekommen – Rettung!",
+    "reassurance4": "Bar oder Rechnung – Bezahlung bei Abholung/Lieferung",
+    "microReassurance": "Kein Vertrag • Jederzeit kündbar • BASG-geprüfte Partner",
+    "testimonial1": "Rezeptfreies Schmerzmittel am Sonntag geliefert – unkompliziert.",
     "testimonial1Author": "— Wien",
-    "testimonial2": "Lieferung in unter einer Stunde. Einfach erleichtert.",
+    "testimonial2": "Rezept in der Apotheke reserviert, Abholung in einer Stunde.",
     "testimonial2Author": "— Wien",
+    "testimonialSenior": "Dank der großen Knöpfe und der Stimmeingabe war es kinderleicht.",
+    "testimonialSeniorAuthor": "— Helga, 82",
     "emergency": "Bei lebensbedrohlicher Notlage 144 oder 112 anrufen.",
-    "mapTitle": "24h-Apotheken in Wien",
+    "mapTitle": "Partner-Apotheken in Wien",
     "footer": "MediFast – Wien. Medikamente, wenn Sie sie brauchen.",
-    "ctaButton": "Registrieren"
+    "ctaButton": "Registrieren",
+    "sicherDiskret": "Sicher & diskret",
+    "apothekerGeprueft": "Apotheker-geprüft"
+  },
+  "legal": {
+    "disclaimer": "Achtung: Rezeptpflichtige Medikamente dürfen in Österreich nicht online versendet werden. Wir koordinieren nur die Reservierung/Abholung bei einer Apotheke. Nur rezeptfreie Produkte sind lieferbar.",
+    "basgLink": "BASG Versandapotheken-Liste",
+    "partnerDisclaimer": "Wir arbeiten mit registrierten österreichischen Apotheken zusammen (BASG-geprüft)."
+  },
+  "consent": {
+    "title": "Willkommen bei MediFast",
+    "ageTitle": "Altersbestätigung",
+    "ageMessage": "Um MediFast zu nutzen, bestätigen Sie bitte, dass Sie mindestens 18 Jahre alt sind.",
+    "gdprTitle": "Datenschutz & Gesundheit",
+    "gdprMessage": "Wir verarbeiten Ihre Daten gemäß DSGVO. Gesundheitsdaten werden nur für die Koordination mit Apotheken genutzt und nicht an Dritte weitergegeben. Mit \"Akzeptieren\" willigen Sie ein.",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen",
+    "declineMessage": "Sie müssen zustimmen, um die Seite zu nutzen."
+  },
+  "senior": {
+    "mode": "Senior-Modus",
+    "modeOn": "Große Schrift, hoher Kontrast, Stimmeingabe",
+    "emergencyButton": "Notfall / 144",
+    "emergencyAria": "Österreichischer Rettungsdienst anrufen"
   },
   "auth": {
     "login": "Anmelden",
@@ -56,7 +83,11 @@
     "idRequired": "Ausweisdokument für Kurier erforderlich",
     "vehicleType": "Fahrzeugtyp",
     "vehicleTypePlaceholder": "z.B. Fahrrad, Motorrad, Auto",
-    "uploaded": "Hochgeladen"
+    "uploaded": "Hochgeladen",
+    "signupOtc": "Rezeptfreie Produkte bestellen",
+    "signupRx": "Rezept für Reservierung/Abholung",
+    "signupFlowOtcDesc": "Bestellen Sie rezeptfreie Medikamente – wir liefern sie zu Ihnen.",
+    "signupFlowRxDesc": "Laden Sie Ihr Rezept hoch – wir reservieren bei einer Partner-Apotheke, Abholung oder verifizierte Übergabe."
   },
   "dashboard": {
     "welcome": "Hallo {name},",
@@ -119,7 +150,8 @@
     "paymentCash": "Barzahlung bei Lieferung (Standard)",
     "submit": "Anfrage senden",
     "created": "Anfrage erstellt",
-    "voiceMedicines": "Medikamente sprechen"
+    "voiceMedicines": "Medikamente sprechen",
+    "legalReminder": "Nur rezeptfreie Produkte werden geliefert. Rezeptpflichtiges reservieren wir für Sie zur Abholung."
   },
   "jobs": {
     "title": "Aufträge",
@@ -165,7 +197,10 @@
     "yourLocation": "Ihr Standort",
     "pharmacy24h": "24 Stunden",
     "openNow": "Jetzt geöffnet",
-    "centerOnMe": "Auf meinen Standort zentrieren"
+    "centerOnMe": "Auf meinen Standort zentrieren",
+    "filterRezeptAnnahme": "Rezept-Annahme",
+    "showAll": "Alle",
+    "partnered": "Partner-Apotheke"
   },
   "common": {
     "loading": "Wir sind dran. Bitte einen Moment.",

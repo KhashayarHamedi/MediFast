@@ -76,18 +76,23 @@ function PharmacyMarker({
   is24h,
   pharmacy24hLabel,
   openNowLabel,
+  partneredLabel,
+  rezeptLabel,
 }: {
   pharmacy: Pharmacy;
   is24h: boolean;
   pharmacy24hLabel: string;
   openNowLabel: string;
+  partneredLabel: string;
+  rezeptLabel: string;
 }) {
   const L = require("leaflet");
-  /* Highlight open pharmacies, mute non-24h - principle 9 */
+  const acceptsRx = "acceptsRx" in pharmacy ? (pharmacy as Pharmacy & { acceptsRx?: boolean }).acceptsRx !== false : true;
+  /* Highlight 24h with pulsing; partnered (acceptsRx) with blue tint */
   const icon = is24h
     ? L.divIcon({
         className: "leaflet-marker-pharmacy-24h",
-        html: '<div style="width:28px;height:28px;background:#22c55e;border-radius:50%;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4);"></div>',
+        html: '<div style="width:28px;height:28px;border-radius:50%;border:3px solid white;"></div>',
         iconSize: [28, 28],
         iconAnchor: [14, 14],
       })
@@ -100,14 +105,21 @@ function PharmacyMarker({
   return (
     <Marker position={[pharmacy.latitude, pharmacy.longitude]} icon={icon}>
       <Popup>
-        <div className="text-base">
+        <div className="text-base min-w-[180px]">
           <p className="font-medium">{pharmacy.nameFa || pharmacy.name}</p>
           <p className="text-muted-foreground text-sm">{pharmacy.address}</p>
-          {is24h && (
-            <span className="mt-1 inline-block rounded bg-green-500/20 px-2 py-1 text-sm font-medium text-green-500">
-              {openNowLabel}
-            </span>
-          )}
+          <div className="mt-2 flex flex-wrap gap-1">
+            {is24h && (
+              <span className="inline-block rounded bg-secondary/20 px-2 py-1 text-sm font-medium text-secondary-foreground dark:text-secondary animate-pulse">
+                {openNowLabel} / {pharmacy24hLabel}
+              </span>
+            )}
+            {acceptsRx && (
+              <span className="inline-block rounded bg-primary/20 px-2 py-1 text-sm font-medium text-primary">
+                {rezeptLabel}
+              </span>
+            )}
+          </div>
         </div>
       </Popup>
     </Marker>
@@ -117,10 +129,15 @@ function PharmacyMarker({
 export function MapClient({ pharmacies: pharmaciesList }: { pharmacies: Pharmacy[] }) {
   const t = useTranslations("map");
   const [mounted, setMounted] = useState(false);
+  const [filterRxOnly, setFilterRxOnly] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const filtered = filterRxOnly
+    ? pharmaciesList.filter((p) => ("acceptsRx" in p ? (p as Pharmacy & { acceptsRx?: boolean }).acceptsRx !== false : true))
+    : pharmaciesList;
 
   if (!mounted) {
     return (
@@ -142,6 +159,30 @@ export function MapClient({ pharmacies: pharmaciesList }: { pharmacies: Pharmacy
 
   return (
     <div className="relative h-full w-full">
+      <div className="absolute top-2 left-2 z-[1000] flex gap-2">
+        <button
+          type="button"
+          onClick={() => setFilterRxOnly(false)}
+          className={`rounded-md border px-3 py-1.5 text-sm font-medium shadow transition-colors ${
+            !filterRxOnly
+              ? "border-primary bg-primary/20 text-primary"
+              : "border-border bg-card/90 text-foreground hover:bg-accent"
+          }`}
+        >
+          {t("showAll")}
+        </button>
+        <button
+          type="button"
+          onClick={() => setFilterRxOnly(true)}
+          className={`rounded-md border px-3 py-1.5 text-sm font-medium shadow transition-colors ${
+            filterRxOnly
+              ? "border-primary bg-primary/20 text-primary"
+              : "border-border bg-card/90 text-foreground hover:bg-accent"
+          }`}
+        >
+          {t("filterRezeptAnnahme")}
+        </button>
+      </div>
       <MapContainer
         center={mapCenter}
         zoom={12}
@@ -153,8 +194,16 @@ export function MapClient({ pharmacies: pharmaciesList }: { pharmacies: Pharmacy
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
         <UserLocationMarker />
-        {pharmaciesList.map((p) => (
-          <PharmacyMarker key={p.id} pharmacy={p} is24h={p.is24h ?? false} pharmacy24hLabel={t("pharmacy24h")} openNowLabel={t("openNow")} />
+        {filtered.map((p) => (
+          <PharmacyMarker
+            key={p.id}
+            pharmacy={p}
+            is24h={p.is24h ?? false}
+            pharmacy24hLabel={t("pharmacy24h")}
+            openNowLabel={t("openNow")}
+            partneredLabel={t("partnered")}
+            rezeptLabel={t("filterRezeptAnnahme")}
+          />
         ))}
         <GeolocationButton />
       </MapContainer>
